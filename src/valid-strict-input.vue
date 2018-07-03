@@ -105,11 +105,11 @@ export default {
     // 获得焦点change时触发
     onInput (e) {
       // 处理检测正确结果
-      const matchedCallback = (e) => {
+      const matchedCallback = () => {
         e.target.value = this.value
       }
       // 处理检测错误结果
-      const dismatchCallback = (e) => {
+      const dismatchCallback = () => {
         this.$emit('input', e.target.value)
       }
 
@@ -117,7 +117,7 @@ export default {
       if (this.inputType && this.inputTypeValidator()) {
         // 进行匹配校验
         const matchResult = REGEXP_MATCH[this.inputType] && REGEXP_MATCH[this.inputType](e.target.value)
-        matchResult ? matchedCallback(e) : dismatchCallback(e)
+        matchResult ? matchedCallback() : dismatchCallback()
         return
       }
 
