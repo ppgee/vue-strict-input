@@ -1,9 +1,9 @@
-import ValidChangeInput from './valid-change-input.vue'
+import ValidStrictInput from './valid-strict-input.vue'
 
 const install = function (Vue) {
   if (install.installed) return
 
-  Vue.component ('valid-change-input', ValidChangeInput)
+  Vue.component ('valid-strict-input', ValidStrictInput)
 }
 
 if (typeof window !== 'undefined' && window.Vue) {
