@@ -1,9 +1,9 @@
-import ValidStrictInput from './valid-strict-input.vue'
+import VueStrictInput from './vue-strict-input.vue'
 
 const install = function (Vue) {
   if (install.installed) return
 
-  Vue.component ('valid-strict-input', ValidStrictInput)
+  Vue.component ('vue-strict-input', VueStrictInput)
 }
 
 if (typeof window !== 'undefined' && window.Vue) {

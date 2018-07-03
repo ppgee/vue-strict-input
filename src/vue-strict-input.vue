@@ -16,7 +16,7 @@
 </template>
 
 <script>
-const INPUT_TYPE = ['number', 'email']
+const INPUT_TYPE = ['number', 'email', 'idcard']
 
 // 匹配数字
 const MATCH_NOT_NUMBER = (inputValue) => {
@@ -26,10 +26,14 @@ const MATCH_NOT_NUMBER = (inputValue) => {
 // 汉字字符
 const NOT_ASCII = /[\u4e00-\u9fa5]/ig
 
+// 非数字和非大写字母X
+const NOT_IDCARD = /(^\d{0,}$)|(^\d{17}([0-9]|X)$)/
+
 // 匹配规则
 const REGEXP_MATCH = {
   number: MATCH_NOT_NUMBER,
-  email: (inputValue) => NOT_ASCII.test(inputValue)
+  email: (inputValue) => NOT_ASCII.test(inputValue),
+  idcard: (inputValue) => !NOT_IDCARD.test(inputValue)
 }
 
 export default {

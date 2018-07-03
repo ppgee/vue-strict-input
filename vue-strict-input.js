@@ -16,7 +16,7 @@
 //
 //
 
-const INPUT_TYPE = ['number', 'email'];
+const INPUT_TYPE = ['number', 'email', 'idcard'];
 
 // 匹配数字
 const MATCH_NOT_NUMBER = (inputValue) => {
@@ -26,10 +26,14 @@ const MATCH_NOT_NUMBER = (inputValue) => {
 // 汉字字符
 const NOT_ASCII = /[\u4e00-\u9fa5]/ig;
 
+// 非数字和非大写字母X
+const NOT_IDCARD = /(^\d{0,}$)|(^\d{17}([0-9]|X)$)/;
+
 // 匹配规则
 const REGEXP_MATCH = {
   number: MATCH_NOT_NUMBER,
-  email: (inputValue) => NOT_ASCII.test(inputValue)
+  email: (inputValue) => NOT_ASCII.test(inputValue),
+  idcard: (inputValue) => !NOT_IDCARD.test(inputValue)
 };
 
 var script = {
@@ -105,11 +109,11 @@ var script = {
     // 获得焦点change时触发
     onInput (e) {
       // 处理检测正确结果
-      const matchedCallback = (e) => {
+      const matchedCallback = () => {
         e.target.value = this.value;
       };
       // 处理检测错误结果
-      const dismatchCallback = (e) => {
+      const dismatchCallback = () => {
         this.$emit('input', e.target.value);
       };
 
@@ -117,7 +121,7 @@ var script = {
       if (this.inputType && this.inputTypeValidator()) {
         // 进行匹配校验
         const matchResult = REGEXP_MATCH[this.inputType] && REGEXP_MATCH[this.inputType](e.target.value);
-        matchResult ? matchedCallback(e) : dismatchCallback(e);
+        matchResult ? matchedCallback() : dismatchCallback();
         return
       }
 
@@ -161,11 +165,11 @@ __vue_render__._withStripped = true;
   /* style */
   const __vue_inject_styles__ = function (inject) {
     if (!inject) return
-    inject("data-v-65424236_0", { source: "\n.reset-input[data-v-65424236] {\n  outline: none;\n}\n", map: {"version":3,"sources":["/Users/ppgee/project/vue-strict-input/src/valid-strict-input.vue"],"names":[],"mappings":";AAmIA;EACA,cAAA;CACA","file":"valid-strict-input.vue","sourcesContent":["<template>\n  <input :type=\"type\" \n    class=\"reset-input\"\n    :name=\"name\"\n    :alt=\"alt\"\n    :autofocus=\"autofocus\"\n    :checked=\"checked\"\n    :disabled=\"disabled\"\n    :placeholder=\"placeholder\"\n    :maxlength=\"maxlength\"\n    @focus=\"onFocus\"\n    @blur=\"onBlur\"\n    @change=\"onChange\"\n    @input=\"onInput\"\n  />\n</template>\n\n<script>\nconst INPUT_TYPE = ['number', 'email']\n\n// 匹配数字\nconst MATCH_NOT_NUMBER = (inputValue) => {\n  return /\\D/.test(inputValue)\n}\n\n// 汉字字符\nconst NOT_ASCII = /[\\u4e00-\\u9fa5]/ig\n\n// 匹配规则\nconst REGEXP_MATCH = {\n  number: MATCH_NOT_NUMBER,\n  email: (inputValue) => NOT_ASCII.test(inputValue)\n}\n\nexport default {\n  name: 'valid-change-input',\n  props: {\n    value: {\n      type: [String, Number],\n      default: ''\n    },\n    type: {\n      type: String,\n      default: 'text'\n    },\n    name: {\n      type: String,\n      default: 'valid-change-input'\n    },\n    alt: {\n      type: String,\n      default: ''\n    },\n    autofocus: {\n      type: Boolean,\n      default: false\n    },\n    checked: {\n      type: Boolean,\n      default: false\n    },\n    disabled: {\n      type: Boolean,\n      default: false\n    },\n    placeholder: {\n      type: String,\n      default: ''\n    },\n    maxlength: {\n      type: Number,\n      default: 255\n    },\n    readonly: {\n      type: Boolean,\n      default: false\n    },\n    inputType: {\n      default: '',\n      validator (inputType) {\n        return INPUT_TYPE.indexOf(inputType) !== -1\n      }\n    }\n  },\n  data () {\n    return {}\n  },\n  methods: {\n    // 验证输入类型\n    inputTypeValidator (inputType = this.inputType) {\n      return INPUT_TYPE.indexOf(inputType) !== -1\n    },\n    // 获得焦点\n    onFocus (e) {\n      this.$emit('focus', e)\n    },\n    // 失去焦点\n    onBlur (e) {\n      this.$emit('blur', e)\n    },\n    // change 失去焦点后触发\n    onChange (e) {\n      this.$emit('change', e)\n    },\n    // 获得焦点change时触发\n    onInput (e) {\n      // 处理检测正确结果\n      const matchedCallback = (e) => {\n        e.target.value = this.value\n      }\n      // 处理检测错误结果\n      const dismatchCallback = (e) => {\n        this.$emit('input', e.target.value)\n      }\n\n      // 检测是否存在输入限制\n      if (this.inputType && this.inputTypeValidator()) {\n        // 进行匹配校验\n        const matchResult = REGEXP_MATCH[this.inputType] && REGEXP_MATCH[this.inputType](e.target.value)\n        matchResult ? matchedCallback(e) : dismatchCallback(e)\n        return\n      }\n\n      // 如果不存在检验或者检验不匹配\n      this.$emit('input', e.target.value)\n    }\n  }\n}\n</script>\n\n<style scoped>\n.reset-input {\n  outline: none;\n}\n</style>\n\n\n"]}, media: undefined });
+    inject("data-v-56987f90_0", { source: "\n.reset-input[data-v-56987f90] {\n  outline: none;\n}\n", map: {"version":3,"sources":["/Users/ppgee/project/vue-strict-input/src/vue-strict-input.vue"],"names":[],"mappings":";AAuIA;EACA,cAAA;CACA","file":"vue-strict-input.vue","sourcesContent":["<template>\n  <input :type=\"type\" \n    class=\"reset-input\"\n    :name=\"name\"\n    :alt=\"alt\"\n    :autofocus=\"autofocus\"\n    :checked=\"checked\"\n    :disabled=\"disabled\"\n    :placeholder=\"placeholder\"\n    :maxlength=\"maxlength\"\n    @focus=\"onFocus\"\n    @blur=\"onBlur\"\n    @change=\"onChange\"\n    @input=\"onInput\"\n  />\n</template>\n\n<script>\nconst INPUT_TYPE = ['number', 'email', 'idcard']\n\n// 匹配数字\nconst MATCH_NOT_NUMBER = (inputValue) => {\n  return /\\D/.test(inputValue)\n}\n\n// 汉字字符\nconst NOT_ASCII = /[\\u4e00-\\u9fa5]/ig\n\n// 非数字和非大写字母X\nconst NOT_IDCARD = /(^\\d{0,}$)|(^\\d{17}([0-9]|X)$)/\n\n// 匹配规则\nconst REGEXP_MATCH = {\n  number: MATCH_NOT_NUMBER,\n  email: (inputValue) => NOT_ASCII.test(inputValue),\n  idcard: (inputValue) => !NOT_IDCARD.test(inputValue)\n}\n\nexport default {\n  name: 'valid-change-input',\n  props: {\n    value: {\n      type: [String, Number],\n      default: ''\n    },\n    type: {\n      type: String,\n      default: 'text'\n    },\n    name: {\n      type: String,\n      default: 'valid-change-input'\n    },\n    alt: {\n      type: String,\n      default: ''\n    },\n    autofocus: {\n      type: Boolean,\n      default: false\n    },\n    checked: {\n      type: Boolean,\n      default: false\n    },\n    disabled: {\n      type: Boolean,\n      default: false\n    },\n    placeholder: {\n      type: String,\n      default: ''\n    },\n    maxlength: {\n      type: Number,\n      default: 255\n    },\n    readonly: {\n      type: Boolean,\n      default: false\n    },\n    inputType: {\n      default: '',\n      validator (inputType) {\n        return INPUT_TYPE.indexOf(inputType) !== -1\n      }\n    }\n  },\n  data () {\n    return {}\n  },\n  methods: {\n    // 验证输入类型\n    inputTypeValidator (inputType = this.inputType) {\n      return INPUT_TYPE.indexOf(inputType) !== -1\n    },\n    // 获得焦点\n    onFocus (e) {\n      this.$emit('focus', e)\n    },\n    // 失去焦点\n    onBlur (e) {\n      this.$emit('blur', e)\n    },\n    // change 失去焦点后触发\n    onChange (e) {\n      this.$emit('change', e)\n    },\n    // 获得焦点change时触发\n    onInput (e) {\n      // 处理检测正确结果\n      const matchedCallback = () => {\n        e.target.value = this.value\n      }\n      // 处理检测错误结果\n      const dismatchCallback = () => {\n        this.$emit('input', e.target.value)\n      }\n\n      // 检测是否存在输入限制\n      if (this.inputType && this.inputTypeValidator()) {\n        // 进行匹配校验\n        const matchResult = REGEXP_MATCH[this.inputType] && REGEXP_MATCH[this.inputType](e.target.value)\n        matchResult ? matchedCallback() : dismatchCallback()\n        return\n      }\n\n      // 如果不存在检验或者检验不匹配\n      this.$emit('input', e.target.value)\n    }\n  }\n}\n</script>\n\n<style scoped>\n.reset-input {\n  outline: none;\n}\n</style>\n\n\n"]}, media: undefined });
 
   };
   /* scoped */
-  const __vue_scope_id__ = "data-v-65424236";
+  const __vue_scope_id__ = "data-v-56987f90";
   /* module identifier */
   const __vue_module_identifier__ = undefined;
   /* functional template */
@@ -179,7 +183,7 @@ __vue_render__._withStripped = true;
     const component = (typeof script$$1 === 'function' ? script$$1.options : script$$1) || {};
 
     {
-      component.__file = "/Users/ppgee/project/vue-strict-input/src/valid-strict-input.vue";
+      component.__file = "/Users/ppgee/project/vue-strict-input/src/vue-strict-input.vue";
     }
 
     if (!component.render) {
@@ -279,7 +283,7 @@ __vue_render__._withStripped = true;
   
 
   
-  var ValidStrictInput = __vue_normalize__(
+  var VueStrictInput = __vue_normalize__(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__,
     __vue_script__,
@@ -293,7 +297,7 @@ __vue_render__._withStripped = true;
 const install = function (Vue) {
   if (install.installed) return
 
-  Vue.component ('valid-strict-input', ValidStrictInput);
+  Vue.component ('vue-strict-input', VueStrictInput);
 };
 
 if (typeof window !== 'undefined' && window.Vue) {

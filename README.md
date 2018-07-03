@@ -9,13 +9,13 @@
 
 在vue的创建实例的js文件中，加入
 ```js
-import ValidStrictInput from 'valid-strict-input'
-Vue.use(ValidStrictInput)
+import VueStrictInput from 'vue-strict-input'
+Vue.use(VueStrictInput)
 ```
 
 然后在需要组件的地方使用即可，例如
 ```html
-<valid-change-input />
+<vue-strict-input />
 ```
 
 ## 注意事项

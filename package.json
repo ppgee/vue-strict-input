@@ -1,8 +1,8 @@
 {
-  "name": "valid-change-input",
+  "name": "vue-strict-input",
   "version": "1.0.0",
   "description": "",
-  "main": "valid-change-input.js",
+  "main": "vue-strict-input.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rollup -c",
